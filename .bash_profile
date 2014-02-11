@@ -68,3 +68,6 @@ eval "$(rbenv init -)"
 # anything to be done after rbenv configures itself
 
 export PATH="/usr/local/heroku/bin:$PATH"
+
+# AWS things
+complete -C aws_completer aws
