@@ -46,6 +46,13 @@ gl () {
 paste -d' ' <(git log --color --pretty=format:'%ai' "$@") <(git log --color --oneline --decorate "$@")
 }
 
+# Use git's autocompletion script (for bash) if it's at the usual place where Homebrew puts it.
+completion="$(brew --prefix)/etc/bash_completion.d/git-completion.bash"
+if test -f $completion
+then
+  source $completion
+fi
+
 #---------------------------------------------------------------------------------------------------
 # Other Niceties
 
