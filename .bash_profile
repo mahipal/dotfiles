@@ -4,6 +4,22 @@
 # export PS1='\[\033[32;1m\]$ \[\033[0;30;1m\]\u ${HOSTNAME} \[\033[0;37m\]\w \[\033[32;1m\]$ \[\033[0m\]'
 export PS1='\[\033[0;30;1m\](\t) \[\033[32;1m\]$ \[\033[0;30;1m\]\u ${HOSTNAME} \[\033[0;37m\]\w \[\033[32;1m\]$ \[\033[0m\]'
 
+git_promptable="$(brew --prefix)/etc/bash_completion.d/git-prompt.sh"
+if test -f $git_promptable
+then
+  source $git_promptable
+  export GIT_PS1_SHOWDIRTYSTATE=true
+  export GIT_PS1_SHOWUNTRACKEDFILES=true
+  export GIT_PS1_SHOWCOLORHINTS=true
+  unset PS1
+  # export PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
+  # export PROMPT_COMMAND='__git_ps1 "\[\033[0;30;1m\](\t) \[\033[32;1m\]$ \[\033[0;30;1m\]\u ${HOSTNAME} \[\033[0;37m\]\w" " \[\033[32;1m\]$ \[\033[0m\]"'
+  export PROMPT_COMMAND='__git_ps1 "\[\033[0;30;1m\](\t) \[\033[32;1m\]$ \[\033[0;30;1m\]\u ${HOSTNAME} \[\e[0m\]\w" " \[\033[32;1m\]$ \[\033[0m\]"'
+fi
+
+# export PS1='\[\033[0;30;1m\](\t) \[\033[32;1m\]$ \[\033[0;30;1m\]\u ${HOSTNAME} \[\033[0;37m\]\w $(__git_ps1 "(%s) ")\[\033[32;1m\]$ \[\033[0m\]'
+# export PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+
 # Make `ls` colorful on OSX.
 export CLICOLOR=1
 
