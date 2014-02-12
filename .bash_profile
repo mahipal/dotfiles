@@ -1,9 +1,9 @@
 #---------------------------------------------------------------------------------------------------
 # Command Prompt
 
-# export PS1='\[\033[32;1m\]$ \[\033[0;30;1m\]\u ${HOSTNAME} \[\033[0;37m\]\w \[\033[32;1m\]$ \[\033[0m\]'
 export PS1='\[\033[0;30;1m\](\t) \[\033[32;1m\]$ \[\033[0;30;1m\]\u ${HOSTNAME} \[\033[0;37m\]\w \[\033[32;1m\]$ \[\033[0m\]'
 
+# Use git-prompt, if it's at the usual place where Homebrew puts it.
 git_promptable="$(brew --prefix)/etc/bash_completion.d/git-prompt.sh"
 if test -f $git_promptable
 then
@@ -12,13 +12,8 @@ then
   export GIT_PS1_SHOWUNTRACKEDFILES=true
   export GIT_PS1_SHOWCOLORHINTS=true
   unset PS1
-  # export PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
-  # export PROMPT_COMMAND='__git_ps1 "\[\033[0;30;1m\](\t) \[\033[32;1m\]$ \[\033[0;30;1m\]\u ${HOSTNAME} \[\033[0;37m\]\w" " \[\033[32;1m\]$ \[\033[0m\]"'
   export PROMPT_COMMAND='__git_ps1 "\[\033[0;30;1m\](\t) \[\033[32;1m\]$ \[\033[0;30;1m\]\u ${HOSTNAME} \[\e[0m\]\w" " \[\033[32;1m\]$ \[\033[0m\]"'
 fi
-
-# export PS1='\[\033[0;30;1m\](\t) \[\033[32;1m\]$ \[\033[0;30;1m\]\u ${HOSTNAME} \[\033[0;37m\]\w $(__git_ps1 "(%s) ")\[\033[32;1m\]$ \[\033[0m\]'
-# export PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
 
 # Make `ls` colorful on OSX.
 export CLICOLOR=1
@@ -26,13 +21,8 @@ export CLICOLOR=1
 # Tell `grep` to highlight matches in results.
 export GREP_OPTIONS='--color=auto'
 
-# These are some alternate/customized color schemes for `ls` output.
-# http://superuser.com/questions/324207/how-do-i-get-context-coloring-in-mac-os-x-terminal
-# http://apple.stackexchange.com/questions/33677/how-can-i-configure-mac-terminal-to-have-color-ls-output
-export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx # pastels
-# export LSCOLORS=dxfxcxdxbxegedabagacad # (kind of ugly)
-# export LSCOLORS=ExFxCxDxBxegedabagacad # default, or close to default -- blue/red/etc.
-# export LSCOLORS=gxfxcxdxbxegedabagacad # mix of pastels and default
+# Use nicer pastel colors for `ls` output.
+export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 
 #---------------------------------------------------------------------------------------------------
 # Path
@@ -56,8 +46,6 @@ export JRUBY_OPTS="-J-XX:MaxPermSize=256M"
 # Git
 
 # Git Log
-# alias g="git"
-# alias gl="git log --pretty=format:'%h %ai %d %s'"
 gl () {
 paste -d' ' <(git log --color --pretty=format:'%ai' "$@") <(git log --color --oneline --decorate "$@")
 }
