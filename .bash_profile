@@ -13,6 +13,21 @@ then
   export GIT_PS1_SHOWCOLORHINTS=true
   unset PS1
   export PROMPT_COMMAND='__git_ps1 "\[\033[0;30;1m\](\t) \[\033[32;1m\]$ \[\033[0;30;1m\]\u ${HOSTNAME} \[\e[0m\]\w" " \[\033[32;1m\]$ \[\033[0m\]"'
+
+  # Apple Terminals offer a feature that opens new tabs in the same working
+  # directory as the current tab. It works by adding the `update_terminal_cwd`
+  # function to the PROMPT_COMMAND. Since we just overwrote PROMPT_COMMAND
+  # above, we now have to account for that. See:
+  # - http://stackoverflow.com/questions/85880/determine-if-a-function-exists-in-bash
+  # - http://superuser.com/questions/623298/os-x-mountain-lion-terminal-tab-name-open-a-new-tab-in-the-same-directory
+  function_exists() {
+    declare -f -F $1 > /dev/null
+    return $?
+  }
+  if function_exists update_terminal_cwd
+  then
+    export PROMPT_COMMAND="update_terminal_cwd; $PROMPT_COMMAND"
+  fi
 fi
 
 # Make `ls` colorful on OSX.
