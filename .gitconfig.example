@@ -1,7 +1,7 @@
 [color]
   ui = true
 [core]
-  editor = subl -w
+  editor = vim
 [user]
   name  = YOUR_NAME_HERE
   email = YOUR_EMAIL_HERE
