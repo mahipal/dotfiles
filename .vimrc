@@ -27,6 +27,8 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 " Other Bundles
 NeoBundle 'tpope/vim-sensible'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/vimproc', { 'build' : { 'mac' : 'make -f make_mac.mak', }, }
 " Close NeoBundle block.
 call neobundle#end()
 filetype plugin indent on
@@ -37,4 +39,19 @@ NeoBundleCheck
 " Syntax Highlighting
 "
 syntax enable
+
+"
+" Set up Unite.
+"
+let g:unite_source_history_yank_enable = 1
+let g:unite_source_rec_min_cache_files = 0
+let g:unite_source_rec_max_cache_files = 0
+
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
+" nnoremap <C-p> :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
+" nnoremap <C-P> :<C-u>execute 'Unite' 'file_rec/async:'.unite#util#path2project_directory(getcwd())<CR>
+
+" nnoremap <C-P> :<C-u>Unite -no-split -start-insert file_rec/git:--others:--exclude-standard:--cached:--full-name<CR>
+nnoremap <C-P> :<C-u>execute 'Unite -no-split -start-insert' 'file_rec/git:--others:--exclude-standard:--cached:--full-name:'.unite#util#path2project_directory(getcwd())<CR>
 
