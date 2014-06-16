@@ -32,7 +32,9 @@ NeoBundle 'Shougo/vimproc', { 'build' : { 'mac' : 'make -f make_mac.mak', 'unix'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'bling/vim-airline'
-NeoBundle 'Shougo/neocomplete.vim'
+if v:version > 703 && has("lua")
+  NeoBundle 'Shougo/neocomplete.vim'
+end
 " Close NeoBundle block.
 call neobundle#end()
 filetype plugin indent on
@@ -62,6 +64,9 @@ nnoremap <C-P> :<C-u>execute 'Unite -no-split -start-insert' 'file_rec/git:--oth
 "
 " Set up NeoComplete.
 "
+if v:version <= 703 || !has("lua")
+  finish
+end
 
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
