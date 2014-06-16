@@ -23,12 +23,13 @@ set directory=~/.vim/.swap//
 "
 set runtimepath+=~/.vim/bundle/neobundle.vim/
 call neobundle#begin(expand('~/.vim/bundle/'))
-" Let NeoBundle manage NeoBundle
+" Let NeoBundle manage NeoBundle.
 NeoBundleFetch 'Shougo/neobundle.vim'
 " Other Bundles
 NeoBundle 'tpope/vim-sensible'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc', { 'build' : { 'mac' : 'make -f make_mac.mak', }, }
+NeoBundle 'kchmck/vim-coffee-script'
 " Close NeoBundle block.
 call neobundle#end()
 filetype plugin indent on
