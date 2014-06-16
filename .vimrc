@@ -30,6 +30,7 @@ NeoBundle 'tpope/vim-sensible'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc', { 'build' : { 'mac' : 'make -f make_mac.mak', }, }
 NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'bling/vim-airline'
 " Close NeoBundle block.
 call neobundle#end()
 filetype plugin indent on
