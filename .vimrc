@@ -28,7 +28,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Other Bundles
 NeoBundle 'tpope/vim-sensible'
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimproc', { 'build' : { 'mac' : 'make -f make_mac.mak', }, }
+NeoBundle 'Shougo/vimproc', { 'build' : { 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, }
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'bling/vim-airline'
