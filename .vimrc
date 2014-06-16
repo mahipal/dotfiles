@@ -49,9 +49,5 @@ let g:unite_source_rec_max_cache_files = 0
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
-" nnoremap <C-p> :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
-" nnoremap <C-P> :<C-u>execute 'Unite' 'file_rec/async:'.unite#util#path2project_directory(getcwd())<CR>
-
-" nnoremap <C-P> :<C-u>Unite -no-split -start-insert file_rec/git:--others:--exclude-standard:--cached:--full-name<CR>
 nnoremap <C-P> :<C-u>execute 'Unite -no-split -start-insert' 'file_rec/git:--others:--exclude-standard:--cached:--full-name:'.unite#util#path2project_directory(getcwd())<CR>
 
