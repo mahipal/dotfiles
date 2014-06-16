@@ -30,6 +30,7 @@ NeoBundle 'tpope/vim-sensible'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc', { 'build' : { 'mac' : 'make -f make_mac.mak', }, }
 NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'bling/vim-airline'
 " Close NeoBundle block.
 call neobundle#end()
@@ -41,6 +42,10 @@ NeoBundleCheck
 " Syntax Highlighting
 "
 syntax enable
+
+let g:solarized_termcolors = 256
+set background=dark
+colorscheme solarized
 
 "
 " Set up Unite.
