@@ -2,8 +2,15 @@
   ui = true
 [core]
   editor = vim
+  excludesfile = ~/.gitignore-global
 [user]
   name  = YOUR_NAME_HERE
   email = YOUR_EMAIL_HERE
-[core]
-  excludesfile = ~/.gitignore-global
+[merge]
+  ff = false
+[pull]
+  rebase = true
+[push]
+  default = nothing
+[rebase]
+  stat = true
