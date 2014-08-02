@@ -84,8 +84,10 @@ let g:unite_source_rec_min_cache_files = 0
 let g:unite_source_rec_max_cache_files = 0
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
 
 nnoremap <C-P> :<C-u>execute 'Unite -no-split -start-insert' 'file_rec/git:--others:--exclude-standard:--cached:--full-name:'.unite#util#path2project_directory(getcwd())<CR>
+nnoremap <Leader>p :<C-u>Unite -no-split -start-insert -buffer-name=yank history/yank<CR>
 
 "
 " Set up NeoComplete.
