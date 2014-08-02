@@ -5,6 +5,8 @@ set nocompatible
 set encoding=utf-8
 set ruler
 set number
+set nowrap
+set hidden
 " Use soft tabs.
 set expandtab
 set smarttab
@@ -12,6 +14,9 @@ set smarttab
 set shiftwidth=2
 set softtabstop=2
 set tabstop=2
+" Use case-insensitive search, except when the input has capital letters.
+set ignorecase
+set smartcase
 " Customize viminfo.
 " Store it and other vim-specific files in the ~/.vim directory.
 set viminfo='100,f1,<50,s10,h,n~/.vim/viminfo
