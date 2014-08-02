@@ -30,17 +30,23 @@ set runtimepath+=~/.vim/bundle/neobundle.vim/
 call neobundle#begin(expand('~/.vim/bundle/'))
 " Let NeoBundle manage NeoBundle.
 NeoBundleFetch 'Shougo/neobundle.vim'
-" Other Bundles
+" Generally Useful Things
 NeoBundle 'tpope/vim-sensible'
 NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/vimproc', { 'build' : { 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, }
-NeoBundle 'kchmck/vim-coffee-script'
+" NeoBundle 'tpope/vim-commentary'
+" Colors, Status Line, Etc.
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'bling/vim-airline'
+" Plugins Specific to File-Types
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'slim-template/vim-slim'
+
 if v:version > 703 && has("lua")
   NeoBundle 'Shougo/neocomplete.vim'
 end
-" Close NeoBundle block.
+
 call neobundle#end()
 filetype plugin indent on
 " Prompt to install uninstalled bundles.
