@@ -62,6 +62,21 @@ set background=dark
 colorscheme solarized
 
 "
+" Autocommands
+"
+
+if !exists("autocommands_loaded")
+  let autocommands_loaded = 1
+
+  " Trim trailing whitespace before saving Ruby files.
+  autocmd BufWritePre *.rb :%s/\s\+$//e
+  autocmd BufWritePre *.coffee :%s/\s\+$//e
+
+  " Set filetypes for exotic extensions to get syntax highlighting.
+  autocmd BufNewFile,BufRead *.hql set filetype=sql
+  autocmd BufNewFile,BufRead *.hql.erb set filetype=eruby.sql
+endif
+"
 " Set up Unite.
 "
 let g:unite_source_history_yank_enable = 1
