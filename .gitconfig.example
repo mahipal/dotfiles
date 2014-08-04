@@ -14,3 +14,5 @@
   default = nothing
 [rebase]
   stat = true
+[rerere]
+  enabled = true
