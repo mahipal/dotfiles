@@ -94,6 +94,14 @@ nnoremap <C-P> :<C-u>execute 'Unite -no-split -start-insert' 'file_rec/git:--oth
 nnoremap <Leader>p :<C-u>Unite -no-split -start-insert -buffer-name=yank history/yank<CR>
 
 "
+" Set up status bar.
+"
+let g:airline#extensions#tabline#enabled = 0
+let g:airline_powerline_fonts = 1
+set laststatus=2
+let g:airline_theme = 'bubblegum'
+
+"
 " Set up NeoComplete.
 "
 if v:version <= 703 || !has("lua")
