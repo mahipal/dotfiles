@@ -76,8 +76,9 @@ if !exists("autocommands_loaded")
   autocmd BufWritePre *.rake   :%s/\s\+$//e
 
   " Set filetypes for exotic extensions to get syntax highlighting.
-  autocmd BufNewFile,BufRead *.hql set filetype=sql
-  autocmd BufNewFile,BufRead *.hql.erb set filetype=eruby.sql
+  autocmd BufNewFile,BufRead *.hql        set filetype=sql
+  autocmd BufNewFile,BufRead *.hql.erb    set filetype=eruby.sql
+  autocmd BufNewFile,BufRead *.coffee.erb set filetype=eruby.coffee
 endif
 "
 " Set up Unite.
