@@ -42,6 +42,7 @@ NeoBundle 'bling/vim-airline'
 " Plugins Specific to File-Types
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'slim-template/vim-slim'
+NeoBundle 'digitaltoad/vim-jade'
 
 if v:version > 703 && has("lua")
   NeoBundle 'Shougo/neocomplete.vim'
