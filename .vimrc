@@ -69,9 +69,10 @@ colorscheme solarized
 if !exists("autocommands_loaded")
   let autocommands_loaded = 1
 
-  " Trim trailing whitespace before saving Ruby files.
-  autocmd BufWritePre *.rb :%s/\s\+$//e
+  " Trim trailing whitespace before saving code files.
+  autocmd BufWritePre *.rb     :%s/\s\+$//e
   autocmd BufWritePre *.coffee :%s/\s\+$//e
+  autocmd BufWritePre *.rake   :%s/\s\+$//e
 
   " Set filetypes for exotic extensions to get syntax highlighting.
   autocmd BufNewFile,BufRead *.hql set filetype=sql
