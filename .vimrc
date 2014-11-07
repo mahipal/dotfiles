@@ -7,6 +7,7 @@ set ruler
 set number
 set nowrap
 set hidden
+set wildmode=longest,full
 " Use soft tabs.
 set expandtab
 set smarttab
