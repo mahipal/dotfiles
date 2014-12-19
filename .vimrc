@@ -44,6 +44,7 @@ NeoBundle 'bling/vim-airline'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'slim-template/vim-slim'
 NeoBundle 'digitaltoad/vim-jade'
+NeoBundle 'mahipal/yaml-vim'
 
 if v:version > 703 && has("lua")
   NeoBundle 'Shougo/neocomplete.vim'
