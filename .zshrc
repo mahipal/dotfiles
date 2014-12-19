@@ -76,6 +76,45 @@ if [[ -f $git_promptable ]]; then
   precmd() { __git_ps1 '%F{242}(%*)%f %F{47}%#%f %F{242}%n %M%f %~ ' '%F{47}%#%f ' '(%s) ' }
 fi
 
+# On OS X, preserve the standard Terminal/bash behavior where new tabs
+# open in the current working directory.
+if [[ $OSTYPE == *darwin* ]]; then
+  # inspired by Apple's implementation in /etc/bashrc and http://superuser.com/a/328148
+  # Tell the terminal about the working directory at each prompt.
+  if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] && [[ -z "$INSIDE_EMACS" ]]; then
+    update_terminal_cwd() {
+      # Identify the directory using a "file:" scheme URL, including
+      # the host name to disambiguate local vs. remote paths.
+
+      # Percent-encode the pathname.
+      local URL_PATH=''
+      {
+        # Use LANG=C to process text byte-by-byte.
+        local i ch hexch LANG=C
+        for ((i = 1; i <= ${#PWD}; ++i)); do
+          ch="$PWD[i]"
+          if [[ "$ch" =~ [/._~A-Za-z0-9-] ]]; then
+            URL_PATH+="$ch"
+          else
+            hexch=$(printf "%02X" "'$ch")
+            URL_PATH+="%$hexch"
+          fi
+        done
+      }
+
+      local PWD_URL="file://$HOST$URL_PATH"
+      printf '\e]7;%s\a' "$PWD_URL"
+    }
+
+    # Register the function to be called whenever the working directory changes.
+    autoload add-zsh-hook
+    add-zsh-hook chpwd update_terminal_cwd
+
+    # Tell the terminal about the initial directory.
+    update_terminal_cwd
+  fi
+fi
+
 # Ruby
 export RACK_ENV=development
 alias b="bundle exec"
