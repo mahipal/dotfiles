@@ -3,6 +3,7 @@ bindkey -v
 setopt auto_cd beep extended_glob no_match
 unsetopt notify
 typeset -U path
+typeset -U fpath
 
 # History Mechanism
 HISTFILE=~/.zsh/.histfile
