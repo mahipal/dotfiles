@@ -62,3 +62,7 @@ alias gsync="git checkout master && git pull origin master && git fetch origin &
 # See: https://github.com/git/git/blob/master/contrib/completion/git-completion.zsh
 # On Homebrew systems, see: /usr/local/share/zsh/site-functions/
 fpath=(~/.zsh $fpath)
+
+# Ruby
+export RACK_ENV=development
+alias b="bundle exec"
