@@ -56,3 +56,9 @@ gl() {
 paste -d' ' <(git log --color --pretty=format:'%ai' "$@") <(git log --color --oneline --decorate "$@")
 }
 alias gsync="git checkout master && git pull origin master && git fetch origin && git remote prune origin"
+
+# git auto-completion
+# Place the 2 necessary files for zsh git completion in the ~/.zsh/ directory.
+# See: https://github.com/git/git/blob/master/contrib/completion/git-completion.zsh
+# On Homebrew systems, see: /usr/local/share/zsh/site-functions/
+fpath=(~/.zsh $fpath)
