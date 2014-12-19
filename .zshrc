@@ -15,7 +15,6 @@ setopt hist_ignore_dups hist_expire_dups_first
 
 # Prompt
 export PS1='%F{242}(%*)%f %F{47}%#%f %F{242}%n %M%f %~ %F{47}%#%f '
-# TODO: Add git-prompt functionality.
 
 # ls (BSD)
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
@@ -62,6 +61,20 @@ alias gsync="git checkout master && git pull origin master && git fetch origin &
 # See: https://github.com/git/git/blob/master/contrib/completion/git-completion.zsh
 # On Homebrew systems, see: /usr/local/share/zsh/site-functions/
 fpath=(~/.zsh $fpath)
+
+# git prompt
+# Place git-prompt.sh in the ~/.zsh/ directory.
+# See: https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
+# On Homebrew systems, see: /usr/local/etc/bash_completion.d/git-prompt.sh
+git_promptable="$HOME/.zsh/git-prompt.sh"
+if [[ -f $git_promptable ]]; then
+  source $git_promptable
+  export GIT_PS1_SHOWDIRTYSTATE=true
+  export GIT_PS1_SHOWUNTRACKEDFILES=true
+  # Colors only work when using precmd() (rather than setting PS1 directly).
+  export GIT_PS1_SHOWCOLORHINTS=true
+  precmd() { __git_ps1 '%F{242}(%*)%f %F{47}%#%f %F{242}%n %M%f %~ ' '%F{47}%#%f ' '(%s) ' }
+fi
 
 # Ruby
 export RACK_ENV=development
