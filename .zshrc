@@ -66,3 +66,9 @@ fpath=(~/.zsh $fpath)
 # Ruby
 export RACK_ENV=development
 alias b="bundle exec"
+
+# rbenv
+if [[ -d "$HOME/.rbenv" ]]; then
+  path=("$HOME/.rbenv/bin" $path)
+  eval "$(rbenv init -)"
+fi
