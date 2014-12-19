@@ -54,7 +54,12 @@ compinit
 gl() {
 paste -d' ' <(git log --color --pretty=format:'%ai' "$@") <(git log --color --oneline --decorate "$@")
 }
-alias gsync="git checkout master && git pull origin master && git fetch origin && git remote prune origin"
+gsync() {
+  git checkout master
+  # Mirror the defaults in .gitconfig.
+  git fetch origin --prune
+  git rebase FETCH_HEAD
+}
 
 # git auto-completion
 # Place the 2 necessary files for zsh git completion in the ~/.zsh/ directory.
