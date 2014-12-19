@@ -50,3 +50,9 @@ zstyle ':completion:*' verbose true
 zstyle :compinstall filename '/Users/paul/.zshrc'
 autoload -Uz compinit
 compinit
+
+# Git
+gl() {
+paste -d' ' <(git log --color --pretty=format:'%ai' "$@") <(git log --color --oneline --decorate "$@")
+}
+alias gsync="git checkout master && git pull origin master && git fetch origin && git remote prune origin"
