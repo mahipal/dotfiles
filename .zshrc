@@ -1,5 +1,4 @@
 # Basics
-export EDITOR=vim
 bindkey -v
 setopt auto_cd beep extended_glob no_match
 unsetopt notify
