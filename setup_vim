@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
 # Create directories for backup and swap, if they do not exist.
-VIM_DIRECTORY=File.join(Dir.home, ".vim")
-BACKUP_DIRECTORY=File.join(VIM_DIRECTORY, ".backup")
-SWAP_DIRECTORY=File.join(VIM_DIRECTORY, ".swap")
-BUNDLE_DIRECTORY=File.join(VIM_DIRECTORY, "bundle")
+VIM_DIRECTORY    = File.join(Dir.home, ".vim")
+BACKUP_DIRECTORY = File.join(VIM_DIRECTORY, ".backup")
+SWAP_DIRECTORY   = File.join(VIM_DIRECTORY, ".swap")
+BUNDLE_DIRECTORY = File.join(VIM_DIRECTORY, "bundle")
 [VIM_DIRECTORY, BACKUP_DIRECTORY, SWAP_DIRECTORY, BUNDLE_DIRECTORY].each do |directory|
   Dir.mkdir(directory) unless File.exists?(directory)
 end
@@ -16,5 +16,5 @@ end
 
 # Set up .vimrc as a symlink so that future updates can be pulled in.
 # ASSUMPTION: This script is being executed from within the dotfiles directory.
-VIMRC_PATH=File.join(Dir.home, ".vimrc")
+VIMRC_PATH = File.join(Dir.home, ".vimrc")
 File.symlink(File.join(Dir.pwd, ".vimrc"), VIMRC_PATH) unless File.exists?(VIMRC_PATH)
