@@ -83,6 +83,7 @@ if !exists("autocommands_loaded")
   autocmd BufWritePre *.rb     :%s/\s\+$//e
   autocmd BufWritePre *.coffee :%s/\s\+$//e
   autocmd BufWritePre *.rake   :%s/\s\+$//e
+  autocmd BufWritePre *.sass   :%s/\s\+$//e
 
   " Set filetypes for exotic extensions to get syntax highlighting.
   autocmd BufNewFile,BufRead *.hql        set filetype=sql
