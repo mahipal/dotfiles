@@ -52,6 +52,7 @@ if dein#load_state('/Users/paul/.vim/bundle')
   call dein#add('slim-template/vim-slim')
   call dein#add('digitaltoad/vim-jade')
   call dein#add('paulrex/yaml-vim')
+  call dein#add('fatih/vim-go')
 
   " TODO: Explore these plugins later.
   " call dein#add('tpope/vim-commentary')
@@ -158,3 +159,28 @@ let g:neocomplete#sources#omni#input_patterns.python = ''
 " Set up async completion for Ruby.
 let g:monster#completion#rcodetools#backend = "async_rct_complete"
 let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+
+"
+" Set up vim-go.
+"
+if !exists("go_autocommands_loaded")
+  let go_autocommands_loaded = 1
+  au FileType go nmap <leader>r <Plug>(go-run)
+  au FileType go nmap <leader>b <Plug>(go-build)
+  au FileType go nmap <leader>t <Plug>(go-test)
+  au FileType go nmap <leader>c <Plug>(go-coverage)
+  au FileType go nmap <Leader>ds <Plug>(go-def-split)
+  au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+  au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+  au FileType go nmap <Leader>gd <Plug>(go-doc)
+  au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+  au FileType go nmap <Leader>s <Plug>(go-implements)
+endif
+" Configure syntax-highlighting for functions, methods, and structs.
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+" Automatically insert import paths as well.
+let g:go_fmt_command = "goimports"
