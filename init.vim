@@ -78,6 +78,8 @@ syntax enable
 " Autocompletion
 "
 let g:deoplete#enable_at_startup = 1
+" Autocomplete and cycle from top-to-bottom of suggestions using <Tab>.
+inoremap <expr><TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
 
 "
 " Colors
