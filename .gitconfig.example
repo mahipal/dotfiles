@@ -13,6 +13,7 @@
 [push]
   default = nothing
 [rebase]
+  autosquash = true
   stat = true
 [rerere]
   enabled = true
