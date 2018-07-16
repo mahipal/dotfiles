@@ -1,20 +1,19 @@
 #!/usr/bin/env ruby
 
-# Create directories for backup and swap, if they do not exist.
-VIM_DIRECTORY    = File.join(Dir.home, ".vim")
+# Create directories, if they do not exist.
+puts "Creating directories..."
+CONFIG_DIRECTORY = File.join(Dir.home, ".config")
+VIM_DIRECTORY = File.join(CONFIG_DIRECTORY, "vim")
 BACKUP_DIRECTORY = File.join(VIM_DIRECTORY, ".backup")
 SWAP_DIRECTORY   = File.join(VIM_DIRECTORY, ".swap")
-BUNDLE_DIRECTORY = File.join(VIM_DIRECTORY, "bundle")
-[VIM_DIRECTORY, BACKUP_DIRECTORY, SWAP_DIRECTORY, BUNDLE_DIRECTORY].each do |directory|
+
+[VIM_DIRECTORY, BACKUP_DIRECTORY, SWAP_DIRECTORY].each do |directory|
   Dir.mkdir(directory) unless File.exists?(directory)
 end
 
-# Set up NeoBundle.
-unless File.exists?(File.join(BUNDLE_DIRECTORY, "neobundle.vim"))
-  `git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim`
-end
-
-# Set up .vimrc as a symlink so that future updates can be pulled in.
 # ASSUMPTION: This script is being executed from within the dotfiles directory.
+puts "Symlinking vimrc file..."
 VIMRC_PATH = File.join(Dir.home, ".vimrc")
 File.symlink(File.join(Dir.pwd, ".vimrc"), VIMRC_PATH) unless File.exists?(VIMRC_PATH)
+
+puts "Done."
