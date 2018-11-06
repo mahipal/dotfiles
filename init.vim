@@ -78,12 +78,20 @@ if dein#load_state(dein_installation_directory)
   call dein#add('fishbullet/deoplete-ruby') " simple Ruby
   call dein#add('HerringtonDarkholme/yats.vim') " TypeScript syntax file
   call dein#add('mhartington/nvim-typescript', { 'build': './install.sh' }) " TypeScript
-  call dein#add('prettier/vim-prettier', { 'do': 'yarn install' }) " Prettier
+  call dein#add('mxw/vim-jsx') " JSX highlighter (depends on underlying JS highlighter)
+  call dein#add('pangloss/vim-javascript') " JS highlighter ('official' dependency of vim-jsx)
+  call dein#add('prettier/vim-prettier', { 'build': 'yarn install' }) " Prettier
+  call dein#add('reasonml-editor/vim-reason-plus') " ReasonML syntax highlighting
   call dein#add('Shougo/neco-syntax') " syntax source for deoplete
+  call dein#add('slim-template/vim-slim') " Slim syntax highlighting
+  call dein#add('tpope/vim-rails')
 
   call dein#end()
   call dein#save_state()
 endif
+
+" To clean up uninstalled/commented plugins, run:
+" call map(dein#check_clean(), \"delete(v:val, 'rf')\")
 
 " On startup, install not-installed plugins.
 if dein#check_install()
