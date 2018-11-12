@@ -61,11 +61,17 @@ let &runtimepath = &runtimepath . ',' . dein_source_directory
 
 if dein#load_state(dein_installation_directory)
   call dein#begin(dein_installation_directory)
-  call dein#add(dein_installation_directory)
 
   " Basics
+  call dein#add(dein_source_directory) " Let dein manage dein.
   call dein#add('Shougo/denite.nvim')
+
+  " Completions and Linting
+  call dein#add('autozimu/LanguageClient-neovim', { 'rev': 'next', 'build': 'bash install.sh' })
   call dein#add('Shougo/deoplete.nvim')
+  " call dein#add('Shougo/echodoc.vim')
+  call dein#add('Shougo/neco-syntax') " syntax source for deoplete
+  call dein#add('uplus/deoplete-solargraph')
 
   " Visual
   call dein#add('altercation/vim-colors-solarized') " color scheme
@@ -75,23 +81,17 @@ if dein#load_state(dein_installation_directory)
   " Language-Specific (alphabetical by package-identifier)
   call dein#add('chr4/nginx.vim') " nginx configs
   call dein#add('fatih/vim-go') " Golang
-  call dein#add('fishbullet/deoplete-ruby') " simple Ruby
   call dein#add('HerringtonDarkholme/yats.vim') " TypeScript syntax file
-  call dein#add('mhartington/nvim-typescript', { 'build': './install.sh' }) " TypeScript
   call dein#add('mxw/vim-jsx') " JSX highlighter (depends on underlying JS highlighter)
   call dein#add('pangloss/vim-javascript') " JS highlighter ('official' dependency of vim-jsx)
   call dein#add('prettier/vim-prettier', { 'build': 'yarn install' }) " Prettier
   call dein#add('reasonml-editor/vim-reason-plus') " ReasonML syntax highlighting
-  call dein#add('Shougo/neco-syntax') " syntax source for deoplete
   call dein#add('slim-template/vim-slim') " Slim syntax highlighting
   call dein#add('tpope/vim-rails')
 
   call dein#end()
   call dein#save_state()
 endif
-
-" To clean up uninstalled/commented plugins, run:
-" call map(dein#check_clean(), \"delete(v:val, 'rf')\")
 
 " On startup, install not-installed plugins.
 if dein#check_install()
@@ -139,13 +139,18 @@ let g:airline_symbols.whitespace = 'Ξ'
 " Completions
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+let g:LanguageClient_serverCommands = {
+      \ 'reason': ['/Users/paul/code/reason-language-server/reason-language-server.exe'],
+      \ }
+let g:LanguageClient_hoverPreview = 'Never'
+
 " Speed Improvements for Deoplete
 let g:python3_host_prog = '/usr/local/bin/python3'
 let g:deoplete#enable_at_startup = 0
 autocmd InsertEnter * call deoplete#enable()
 
 " Autocomplete and cycle from top-to-bottom of suggestions using <Tab>.
-" inoremap <expr><TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
+inoremap <expr><TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
 
 " <TAB>: completion.
 inoremap <silent><expr> <TAB>
@@ -160,13 +165,10 @@ endfunction
 " <S-TAB>: completion back.
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
-
-" inoremap <expr><C-g>       deoplete#refresh()
-" inoremap <expr><C-e>       deoplete#cancel_popup()
-" inoremap <silent><expr><C-l>       deoplete#complete_common_string()
+" additional useful key-bindings
+inoremap <expr><C-g>       deoplete#refresh()
+inoremap <expr><C-e>       deoplete#cancel_popup()
+inoremap <silent><expr><C-l>       deoplete#complete_common_string()
 
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
@@ -174,38 +176,19 @@ function! s:my_cr_function() abort
   return deoplete#cancel_popup() . "\<CR>"
 endfunction
 
-" inoremap <expr> '  pumvisible() ? deoplete#close_popup() : "'"
-
-call deoplete#custom#source('_', 'matchers', ['matcher_head'])
-call deoplete#custom#source('_', 'converters', [
-      \ 'converter_remove_paren',
-      \ 'converter_remove_overlap',
-      \ 'matcher_length',
-      \ 'converter_truncate_abbr',
-      \ 'converter_truncate_menu',
-      \ 'converter_auto_delimiter',
-      \ ])
-
-call deoplete#custom#option('keyword_patterns', {
-      \ '_': '[a-zA-Z_]\k*\(?',
-      \ 'tex': '[^\w|\s][a-zA-Z_]\w*',
-      \ })
-
 call deoplete#custom#option('camel_case', v:true)
 call deoplete#custom#option('auto_complete_delay', 0)
 call deoplete#custom#option('smart_case', v:true)
 call deoplete#custom#option('min_pattern_length', 1)
 
-" call deoplete#custom#option('sources', {
-" \ '_': ['buffer'],
-" \ 'cpp': ['buffer', 'tag'],
-" \})
+call deoplete#custom#option('sources', {
+      \ '_': ['tag', 'buffer', 'file', 'LanguageClient', 'syntax'],
+      \ 'ruby': ['tag', 'solargraph', 'buffer', 'file', 'syntax'],
+      \ 'eruby': ['tag', 'solargraph', 'buffer', 'file', 'syntax'],
+\})
 
-call deoplete#custom#var('omni', 'input_patterns', {
-      \ 'ruby': ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::'],
-      \ 'java': '[^. *\t]\.\w*',
-      \ '_': '[^. *\t]\.\w*',
-      \})
+" Disable the preview window for completions.
+set completeopt-=preview
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Automatic Whitespace Trimming and Formatting (for select filetypes)
