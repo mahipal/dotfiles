@@ -18,6 +18,8 @@ set display+=lastline
 set foldmethod=syntax
 set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 set nofoldenable
+" The status line will show the mode.
+set noshowmode
 set nowrap
 set nrformats-=octal
 set scrolloff=1
@@ -112,19 +114,21 @@ set background=dark
 colorscheme solarized
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Status Bar
+" Status Line
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:airline_theme = 'bubblegum'
-let g:airline#extensions#tabline#enabled = 0
+
+" Performance Optimizations
+" https://github.com/vim-airline/vim-airline/wiki/FAQ#i-have-a-performance-problem
+let g:airline_extensions = ['denite', 'languageclient']
+let g:airline_highlighting_cache = 1
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
-let g:airline_symbols.crypt = '🔒'
-let g:airline_symbols.readonly = '🔒'
 let g:airline_symbols.linenr = '☰'
 let g:airline_symbols.maxlinenr = ''
 let g:airline_symbols.branch = '⎇'
