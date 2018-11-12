@@ -74,6 +74,7 @@ if dein#load_state(dein_installation_directory)
   " call dein#add('Shougo/echodoc.vim')
   call dein#add('Shougo/neco-syntax') " syntax source for deoplete
   call dein#add('uplus/deoplete-solargraph')
+  call dein#add('w0rp/ale')
 
   " Visual
   call dein#add('altercation/vim-colors-solarized') " color scheme
@@ -86,7 +87,6 @@ if dein#load_state(dein_installation_directory)
   call dein#add('HerringtonDarkholme/yats.vim') " TypeScript syntax file
   call dein#add('mxw/vim-jsx') " JSX highlighter (depends on underlying JS highlighter)
   call dein#add('pangloss/vim-javascript') " JS highlighter ('official' dependency of vim-jsx)
-  call dein#add('prettier/vim-prettier', { 'build': 'yarn install' }) " Prettier
   call dein#add('reasonml-editor/vim-reason-plus') " ReasonML syntax highlighting
   call dein#add('slim-template/vim-slim') " Slim syntax highlighting
   call dein#add('tpope/vim-rails')
@@ -121,7 +121,7 @@ let g:airline_theme = 'bubblegum'
 
 " Performance Optimizations
 " https://github.com/vim-airline/vim-airline/wiki/FAQ#i-have-a-performance-problem
-let g:airline_extensions = ['denite', 'languageclient']
+let g:airline_extensions = ['denite', 'languageclient', 'ale']
 let g:airline_highlighting_cache = 1
 
 if !exists('g:airline_symbols')
@@ -198,18 +198,12 @@ set completeopt-=preview
 " Automatic Whitespace Trimming and Formatting (for select filetypes)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-if !exists("formatting_autocommands_loaded")
-  let formatting_autocommands_loaded = 1
-
-  " Trim trailing whitespace before saving code files.
-  autocmd BufWritePre *.rb     :%s/\s\+$//e
-  autocmd BufWritePre *.rake   :%s/\s\+$//e
-  autocmd BufWritePre *.sass   :%s/\s\+$//e
-
-  " Use Prettier, but only for select filetypes.
-  let g:prettier#autoformat = 0
-  autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue :Prettier
-endif
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['prettier', 'eslint'],
+\   'ruby': ['rubocop'],
+\}
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Denite
@@ -222,22 +216,5 @@ nnoremap <C-P> :<C-u>execute 'DeniteProjectDir' 'file_rec/git'<CR>
 " Use up and down arrow keys to navigate the list.
 call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>',     'noremap')
 call denite#custom#map('insert', '<Up>',   '<denite:move_to_previous_line>', 'noremap')
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Prettier
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-let g:prettier#config#print_width = 120
-let g:prettier#config#tab_width = 2
-let g:prettier#config#use_tabs = 'false'
-let g:prettier#config#semi = 'true'
-let g:prettier#config#single_quote = 'false'
-let g:prettier#config#bracket_spacing = 'true'
-let g:prettier#config#jsx_bracket_same_line = 'false'
-let g:prettier#config#arrow_parens = 'always'
-let g:prettier#config#trailing_comma = 'all'
-let g:prettier#config#parser = 'babylon'
-let g:prettier#config#config_precedence = 'prefer-file'
-let g:prettier#config#prose_wrap = 'preserve'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
