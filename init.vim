@@ -78,8 +78,7 @@ if dein#load_state(dein_installation_directory)
 
   " Visual
   call dein#add('altercation/vim-colors-solarized') " color scheme
-  call dein#add('vim-airline/vim-airline') " status line
-  call dein#add('vim-airline/vim-airline-themes') " status line colors
+  call dein#add('itchyny/lightline.vim')
 
   " Language-Specific (alphabetical by package-identifier)
   call dein#add('chr4/nginx.vim') " nginx configs
@@ -117,27 +116,40 @@ colorscheme solarized
 " Status Line
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:airline_theme = 'bubblegum'
+let g:lightline = {
+      \ 'colorscheme': 'seoul256',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified' ] ],
+      \   'right': [ [ 'custom-lineinfo' ],
+      \              [ 'custom-fileinfo' ] ],
+      \ },
+      \ 'inactive': {
+      \   'left': [ [ 'readonly', 'filename', 'modified' ] ],
+      \   'right': [ [ 'custom-lineinfo' ],
+      \              [ 'custom-fileinfo' ] ],
+      \ },
+      \ 'component': {
+      \   'custom-lineinfo': ' %3p%% ┃ %4l/%L :%3c',
+      \ },
+      \ 'component_function': {
+      \   'custom-fileinfo': 'LightlineFileInfo',
+      \   'readonly': 'LightlineReadonly',
+      \ },
+      \ 'tabline': {
+      \   'left': [ [ 'tabs' ] ],
+      \   'right': [ ],
+      \ },
+\ }
 
-" Performance Optimizations
-" https://github.com/vim-airline/vim-airline/wiki/FAQ#i-have-a-performance-problem
-let g:airline_extensions = ['denite', 'languageclient', 'ale']
-let g:airline_highlighting_cache = 1
+function! LightlineReadonly()
+  return &readonly ? '∄' : ''
+endfunction
 
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline_symbols.linenr = '☰'
-let g:airline_symbols.maxlinenr = ''
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.spell = 'Ꞩ'
-let g:airline_symbols.notexists = 'Ɇ'
-let g:airline_symbols.whitespace = 'Ξ'
+function! LightlineFileInfo()
+  let displayFiletype = &filetype !=# '' ? &filetype : 'no ft'
+  return ' ' . displayFiletype . ' ┃  ' . &fileencoding . '[' . &fileformat . '] '
+endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Completions
