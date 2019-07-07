@@ -1,34 +1,37 @@
 #!/usr/bin/env ruby
 
-# Create directories, if they do not exist.
-puts "Creating directories..."
-CONFIG_DIRECTORY = File.join(Dir.home, ".config")
-NVIM_DIRECTORY = File.join(CONFIG_DIRECTORY, "nvim")
+puts "Creating directories for config, backup, and swap..."
 
-BACKUP_DIRECTORY = File.join(NVIM_DIRECTORY, ".backup")
-SWAP_DIRECTORY   = File.join(NVIM_DIRECTORY, ".swap")
-DEIN_DIRECTORY = File.join(NVIM_DIRECTORY, "dein")
+CONFIG_DIRECTORY = File.join(Dir.home,         ".config")
+NVIM_DIRECTORY   = File.join(CONFIG_DIRECTORY, "nvim")
+BACKUP_DIRECTORY = File.join(NVIM_DIRECTORY,   ".backup")
+SWAP_DIRECTORY   = File.join(NVIM_DIRECTORY,   ".swap")
 
-[NVIM_DIRECTORY, BACKUP_DIRECTORY, SWAP_DIRECTORY, DEIN_DIRECTORY].each do |directory|
+[NVIM_DIRECTORY, BACKUP_DIRECTORY, SWAP_DIRECTORY].each do |directory|
   Dir.mkdir(directory) unless File.exists?(directory)
 end
 
-# Install dependencies.
-puts "Installing dependencies..."
+puts "Installing neovim bindings for Python, Ruby, and Node..."
+
 `pip3 install neovim`
 `gem install neovim`
 `npm install -g neovim`
 
-# Set up dein, our plugin manager.
-puts "Setting up dein..."
-DEIN_INSTALLATION_DIRECTORY = File.join(DEIN_DIRECTORY, "repos", "github.com", "Shougo", "dein.vim")
-unless File.exists?(DEIN_INSTALLATION_DIRECTORY)
-  `git clone https://github.com/Shougo/dein.vim #{DEIN_INSTALLATION_DIRECTORY}`
+puts "Setting up vim-plug for plugin management..."
+
+VIM_PLUG_INSTALLATION_LOCATION = File.join(NVIM_DIRECTORY, "autoload", "plug.vim")
+unless File.exists?(VIM_PLUG_INSTALLATION_LOCATION)
+  `curl -fLo #{VIM_PLUG_INSTALLATION_LOCATION} --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim`
 end
 
+VIM_PLUG_PLUGINS_DIRECTORY = File.join(NVIM_DIRECTORY, "plugged")
+Dir.mkdir(VIM_PLUG_PLUGINS_DIRECTORY) unless File.exists?(VIM_PLUG_PLUGINS_DIRECTORY)
+
+
+puts "Setting up symlink for init.vim file..."
+
 # ASSUMPTION: This script is being executed from within the dotfiles directory.
-puts "Symlinking init.vim file..."
 INIT_VIM_PATH = File.join(NVIM_DIRECTORY, "init.vim")
 File.symlink(File.join(Dir.pwd, "init.vim"), INIT_VIM_PATH) unless File.exists?(INIT_VIM_PATH)
 
-puts "Done."
+puts "Done. Open neovim and run :PlugInstall to install plugins."
