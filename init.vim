@@ -122,22 +122,34 @@ colorscheme solarized
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Status Line
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TODO:
+"
+"   - Show the full path to the file (maybe with abbreviated directory names),
+"     rather than just the name of the file.
+"
+"   - Show unsaved files in orange with the [+] next to them, like the old
+"     status-line plugin -- currently sometimes it is easy to not notice an
+"     unsaved file.
+"
+"   - Set colors the way the old status-line plugin had them, with some more
+"     color on the right side.
 
 let g:lightline = {
       \ 'colorscheme': 'seoul256',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified' ] ],
+      \             [ 'readonly', 'custom-filepath', 'modified' ] ],
       \   'right': [ [ 'custom-lineinfo' ],
       \              [ 'custom-fileinfo' ] ],
       \ },
       \ 'inactive': {
-      \   'left': [ [ 'readonly', 'filename', 'modified' ] ],
+      \   'left': [ [ 'readonly', 'custom-filepath', 'modified' ] ],
       \   'right': [ [ 'custom-lineinfo' ],
       \              [ 'custom-fileinfo' ] ],
       \ },
       \ 'component': {
       \   'custom-lineinfo': ' %3p%% ┃ %4l/%L :%3c',
+      \   'custom-filepath': '%f',
       \ },
       \ 'component_function': {
       \   'custom-fileinfo': 'LightlineFileInfo',
