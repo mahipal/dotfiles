@@ -31,6 +31,13 @@ runtime! macros/matchit.vim
 " https://github.com/tpope/vim-sensible/issues/28
 inoremap <C-U> <C-G>u<C-U>
 
+" Performance Improvements
+set lazyredraw
+set nocursorline
+set ttyfast
+let g:matchparen_timeout = 10
+let g:matchparen_insert_timeout = 10
+
 " Use soft tabs.
 set expandtab
 set smarttab
