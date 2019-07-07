@@ -83,6 +83,10 @@ Plug 'reasonml-editor/vim-reason-plus', { 'for': 'reasonml' }
 Plug 'slim-template/vim-slim', { 'for': 'slim' }
 Plug 'tpope/vim-rails', { 'for': 'ruby' }
 
+" fzf
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -143,3 +147,10 @@ function! LightlineFileInfo()
   let displayFiletype = &filetype !=# '' ? &filetype : 'no ft'
   return ' ' . displayFiletype . ' ┃  ' . &fileencoding . '[' . &fileformat . '] '
 endfunction
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" fzf
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" use CTRL+P to open fuzzy-finder for all files in this repo
+nnoremap <C-P> :call fzf#run(fzf#wrap({ 'source': 'git ls-files --cached --others --exclude-standard --full-name', 'sink': 'e' }))<CR>
