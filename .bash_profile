@@ -14,6 +14,7 @@ if hash brew 2>/dev/null; then
     export GIT_PS1_SHOWCOLORHINTS=true
     unset PS1
     export PROMPT_COMMAND='__git_ps1 "\[\033[0;30;1m\](\t) \[\033[32;1m\]$ \[\033[0;30;1m\]\u ${HOSTNAME} \[\e[0m\]\w" " \[\033[32;1m\]$ \[\033[0m\]"'
+
     # New tabs in Apple Terminal should open in the same working directory.
     function_exists() {
       declare -f -F $1 > /dev/null
@@ -30,15 +31,17 @@ fi
 ################################################################################
 
 shopt -s histappend
-export HISTFILESIZE=
-export HISTSIZE=
+export HISTFILESIZE=1000000
+export HISTSIZE=10000
 export HISTTIMEFORMAT="[%F %T] "
+export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+# export HISTFILE="~/.bash_endless_history"
 
 ################################################################################
 # Colors
 ################################################################################
 
-export CLICOLOR=1
+export CLICOLOR=1 # enable ls colors (macOS)
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx # pastel colors for ls output
 export GREP_OPTIONS='--color=auto' # highlight matches in grep results
 
@@ -46,22 +49,50 @@ export GREP_OPTIONS='--color=auto' # highlight matches in grep results
 # Git
 ################################################################################
 
+# convenience shortcut for git log with preferred format
+# also passes args through to underlying git-log commands
+# example usage:
+#   $ gl -n20
 gl() {
   paste -d' ' <(git log --color --pretty=format:'%ai' "$@") <(git log --color --oneline --decorate "$@")
 }
 
+
+# "sync up the git repo with upstream"
+#
+# Switch to the default branch for the repo, and get up to date.
+#
+# This takes one optional arg, which is the name of the default branch.
+# The master branch is assumed if no arg is passed in.
 gsync() {
-  git checkout master
-  # Mirror the defaults in .gitconfig.
-  git fetch origin --prune
-  git rebase origin/master
+  git fetch origin
+  git remote prune origin
+  # If there are any uncommitted changes, go no further.
+  if [[ -n "$(git status --porcelain)" ]]; then
+    return
+  fi
+  git checkout "${1:-master}"
+  git rebase origin/${1:-master}
+}
+
+# "git rebase on top of"
+#
+# Get the repo up to date, then rebase the current branch on top of the latest
+# version of the default branch.
+#
+# This takes one optional arg, which is the name of the default branch.
+# The master branch is assumed if no arg is passed in.
+gro () {
+  gsync "${1:-master}"
+  git checkout "@{-1}"
+  git rebase "${1:-master}"
 }
 
 # Git Completion
 if hash brew 2>/dev/null; then
-  completion="$(brew --prefix)/etc/bash_completion.d/git-completion.bash"
-  if test -f $completion; then
-    source $completion
+  git_completable="$(brew --prefix)/etc/bash_completion.d/git-completion.bash"
+  if test -f $git_completable; then
+    source $git_completable
   fi
 fi
 
@@ -79,9 +110,16 @@ fi
 
 ################################################################################
 # Node
+# TODO: Set up nvm here.
 ################################################################################
 
-export NODE_ENV=development
+# export NODE_ENV=development
+
+################################################################################
+# Python
+################################################################################
+
+# TODO: Set up pyenv.
 
 ################################################################################
 # Miscellaneous
