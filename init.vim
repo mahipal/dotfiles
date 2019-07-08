@@ -98,6 +98,8 @@ Plug 'neoclide/coc-python',     { 'do': 'yarn install --frozen-lockfile', 'for':
 Plug 'neoclide/coc-solargraph', { 'do': 'yarn install --frozen-lockfile', 'for': 'ruby' }
 Plug 'neoclide/coc-yaml',       { 'do': 'yarn install --frozen-lockfile', 'for': 'yaml' }
 
+" Linting
+Plug 'w0rp/ale'
 
 call plug#end()
 
@@ -216,3 +218,14 @@ augroup end
 
 " " Disable the preview window for completions.
 " set completeopt-=preview
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Linting
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['prettier', 'eslint'],
+\   'ruby': ['rubocop'],
+\}
