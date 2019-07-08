@@ -87,6 +87,18 @@ Plug 'tpope/vim-rails', { 'for': 'ruby' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
+" Completions
+" core plugin first, then alphabetical by package-identifier
+Plug 'neoclide/coc.nvim',       { 'do': 'yarn install --frozen-lockfile' }
+Plug 'iamcco/coc-vimlsp',       { 'do': 'yarn install --frozen-lockfile', 'for': 'vim' }
+Plug 'neoclide/coc-css',        { 'do': 'yarn install --frozen-lockfile', 'for': 'css' }
+Plug 'neoclide/coc-html',       { 'do': 'yarn install --frozen-lockfile', 'for': 'html' }
+Plug 'neoclide/coc-json',       { 'do': 'yarn install --frozen-lockfile', 'for': 'json' }
+Plug 'neoclide/coc-python',     { 'do': 'yarn install --frozen-lockfile', 'for': 'python' }
+Plug 'neoclide/coc-solargraph', { 'do': 'yarn install --frozen-lockfile', 'for': 'ruby' }
+Plug 'neoclide/coc-yaml',       { 'do': 'yarn install --frozen-lockfile', 'for': 'yaml' }
+
+
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -154,3 +166,53 @@ endfunction
 
 " use CTRL+P to open fuzzy-finder for all files in this repo
 nnoremap <C-P> :call fzf#run(fzf#wrap({ 'source': 'git ls-files --cached --others --exclude-standard --full-name', 'sink': 'e' }))<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Completions
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set signcolumn=yes
+
+" Autocomplete and cycle from top-to-bottom of suggestions using <Tab>.
+inoremap <expr><TAB> pumvisible() ? "\<c-n>" : "\<TAB>"
+
+" <TAB>: completion.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+" <S-TAB>: completion back.
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+"""""""""""""""""""""""""
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Remap for format selected region
+vmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup cocgroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" " Disable the preview window for completions.
+" set completeopt-=preview
