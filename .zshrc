@@ -23,7 +23,7 @@ setopt hist_ignore_dups hist_expire_dups_first
 # Prompt
 ################################################################################
 
-export PS1='%F{242}(%*)%f %F{47}%#%f %F{242}%n %M%f %~ %F{47}%#%f '
+export PS1='%F{242}(%D{%Y-%m-%d} %*)%f %F{47}%#%f %F{242}%n %M%f %~ %F{47}%#%f '
 
 ################################################################################
 # Colors
@@ -117,7 +117,7 @@ if hash brew 2>/dev/null; then
     export GIT_PS1_SHOWUNTRACKEDFILES=true
     # Colors only work when using precmd() (rather than setting PS1 directly).
     export GIT_PS1_SHOWCOLORHINTS=true
-    precmd() { __git_ps1 '%F{242}(%*)%f %F{47}%#%f %F{242}%n %M%f %~ ' '%F{47}%#%f ' '(%s) ' }
+    precmd() { __git_ps1 '%F{242}(%D{%Y-%m-%d} %*)%f %F{47}%#%f %F{242}%n %M%f %~ ' '%F{47}%#%f ' '(%s) ' }
   fi
 fi
 
